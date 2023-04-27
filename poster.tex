@@ -3,21 +3,23 @@
 
 \documentclass[final]{beamer}
 
+
 % ====================
 % Packages
 % ====================
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[size=custom,width=120,height=72,scale=1.0]{beamerposter}
+\usepackage[size=custom,width=84.1,height=118.9,scale=1.0]{beamerposter}
 \usetheme{gemini}
-\usecolortheme{gemini}
+\usecolortheme{penn}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.14}
 \usepackage{anyfontsize}
+\usepackage{subcaption,mwe}
 
 % ====================
 % Lengths
@@ -27,8 +29,8 @@
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
 \newlength{\sepwidth}
 \newlength{\colwidth}
-\setlength{\sepwidth}{0.025\paperwidth}
-\setlength{\colwidth}{0.3\paperwidth}
+\setlength{\sepwidth}{0.02\paperwidth}
+\setlength{\colwidth}{0.47\paperwidth}
 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
@@ -36,20 +38,21 @@
 % Title
 % ====================
 
-\title{Some fancy title: followed by some more text}
+\title{Fast Tracking on Heterogeneous Hardware for the ATLAS Event Filter}
 
-\author{Alyssa P. Hacker \inst{1} \and Ben Bitdiddle \inst{2} \and Lem E. Tweakit \inst{2}}
+\author{Abraham Kahn, on behalf of the ATLAS TDAQ Collaboration}
 
-\institute[shortinst]{\inst{1} Some Institute \samelineand \inst{2} Another Institute}
+%\institute[shortinst]{\inst{1} University of Pennsylvania \samelineand \inst{2} College of Everywhere}
 
 % ====================
 % Footer (optional)
 % ====================
 
 \footercontent{
-  \href{https://www.example.com}{https://www.example.com} \hfill
-  ABC Conference 2025, New York --- XYZ-1234 \hfill
-  \href{mailto:alyssa.p.hacker@example.com}{alyssa.p.hacker@example.com}}
+  %\href{https://www.example.com}{https://www.example.com} \hfill
+  CHEP 2023, Norfolk \hfill
+  \href{mailto:abkahn@sas.upenn.edu}{abkahn@sas.upenn.edu}
+  }
 % (can be left out to remove footer)
 
 % ====================
@@ -57,8 +60,9 @@
 % ====================
 
 % use this to include logos on the left and/or right side of the header:
-% \logoright{\includegraphics[height=7cm]{logo1.pdf}}
-% \logoleft{\includegraphics[height=7cm]{logo2.pdf}}
+\logoright{\includegraphics[height=7cm]{images/ATLAS-Logo-Standard.png}}
+\logoleft{\includegraphics[height=7cm]{images/EF_Logo.png}}
+\logobottomright{\includegraphics[height=2cm]{images/UPenn_logo.png}}
 
 % ====================
 % Body
@@ -72,158 +76,98 @@
 
 \begin{column}{\colwidth}
 
-  \begin{block}{A block title}
+  \begin{block}{Overview}
 
-    Some block contents, followed by a diagram, followed by a dummy paragraph.
+    The High Luminosity upgrade of the Large Hadron Collider (HL-LHC) will deliver $\mathcal{O}(10)$ times the total integrated luminosity
+    of LHC Runs 1-3 combined \cite{TDR}. However, this increased rate of proton-proton collisions per bunch crossing (pile-up) also poses
+    significant challenges to the ATLAS Trigger and Data Acquisition System (TDAQ). In order to meet the physics goals and realize the 
+    full potential of the HL-LHC, the TDAQ system must be able to quickly execute track and vertex reconstruction in this high pile-up environment.
+    The Event Filter (EF) will need to be designed to work at a luminosity of 
+    $\mathcal{L} = 7.5 \times 10^{34} \text{ cm}^{-2}\text{s}^{-1}$, with a maximum input rate of 1 MHz and output rate of 10 kHz.
 
-    \begin{figure}
-      \centering
-      \begin{tikzpicture}[scale=6]
-        \draw[step=0.25cm,color=gray] (-1,-1) grid (1,1);
-        \draw (1,0) -- (0.2,0.2) -- (0,1) -- (-0.2,0.2) -- (-1,0)
-          -- (-0.2,-0.2) -- (0,-1) -- (0.2,-0.2) -- cycle;
-      \end{tikzpicture}
-      \caption{A figure caption.}
-    \end{figure}
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies
-    eget libero ac ullamcorper. Integer et euismod ante. Aenean vestibulum
-    lobortis augue, ut lobortis turpis rhoncus sed. Proin feugiat nibh a
-    lacinia dignissim. Proin scelerisque, risus eget tempor fermentum, ex
-    turpis condimentum urna, quis malesuada sapien arcu eu purus.
+    Industry trends show a shift toward the usage of heterogeneous systems - systems which integrate multiple types of computational units (GPUs, FPGAs, ASICS, etc.)
+     - which can achieve higher performance with lower power consumption and lower latency than CPU-only systems. Heterogeneous computing systems prove to be a compelling option 
+    for a new EF design, which will be responsible for executing sophisticated track reconstruction algorithms in the ATLAS TDAQ system. 
 
   \end{block}
 
-  \begin{block}{A block containing a list}
+  \begin{block}{FPGA-based Tracking}
 
-    Nam vulputate nunc felis, non condimentum lacus porta ultrices. Nullam sed
-    sagittis metus. Etiam consectetur gravida urna quis suscipit.
-
-    \begin{itemize}
-      \item \textbf{Mauris tempor} risus nulla, sed ornare
-      \item \textbf{Libero tincidunt} a duis congue vitae
-      \item \textbf{Dui ac pretium} morbi justo neque, ullamcorper
-    \end{itemize}
-
-    Eget augue porta, bibendum venenatis tortor.
-
-  \end{block}
-
-  \begin{alertblock}{A highlighted block}
-
-    This block catches your eye, so \textbf{important stuff} should probably go
-    here.
-
-    Curabitur eu libero vehicula, cursus est fringilla, luctus est. Morbi
-    consectetur mauris quam, at finibus elit auctor ac. Aliquam erat volutpat.
-    Aenean at nisl ut ex ullamcorper eleifend et eu augue. Aenean quis velit
-    tristique odio convallis ultrices a ac odio.
-
-    \begin{itemize}
-      \item \textbf{Fusce dapibus tellus} vel tellus semper finibus. In
-        consequat, nibh sed mattis luctus, augue diam fermentum lectus.
-      \item \textbf{In euismod erat metus} non ex. Vestibulum luctus augue in
-        mi condimentum, at sollicitudin lorem viverra.
-      \item \textbf{Suspendisse vulputate} mauris vel placerat consectetur.
-        Mauris semper, purus ac hendrerit molestie, elit mi dignissim odio, in
-        suscipit felis sapien vel ex.
-    \end{itemize}
-
-    Aenean tincidunt risus eros, at gravida lorem sagittis vel. Vestibulum ante
-    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-
-  \end{alertblock}
-
-\end{column}
-
-\separatorcolumn
-
-\begin{column}{\colwidth}
-
-  \begin{block}{A block containing an enumerated list}
-
-    Vivamus congue volutpat elit non semper. Praesent molestie nec erat ac
-    interdum. In quis suscipit erat. \textbf{Phasellus mauris felis, molestie
-    ac pharetra quis}, tempus nec ante. Donec finibus ante vel purus mollis
-    fermentum. Sed felis mi, pharetra eget nibh a, feugiat eleifend dolor. Nam
-    mollis condimentum purus quis sodales. Nullam eu felis eu nulla eleifend
-    bibendum nec eu lorem. Vivamus felis velit, volutpat ut facilisis ac,
-    commodo in metus.
-
-    \begin{enumerate}
-      \item \textbf{Morbi mauris purus}, egestas at vehicula et, convallis
-        accumsan orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
-      \item \textbf{Cras vehicula blandit urna ut maximus}. Aliquam blandit nec
-        massa ac sollicitudin. Curabitur cursus, metus nec imperdiet bibendum,
-        velit lectus faucibus dolor, quis gravida metus mauris gravida turpis.
-      \item \textbf{Vestibulum et massa diam}. Phasellus fermentum augue non
-        nulla accumsan, non rhoncus lectus condimentum.
-    \end{enumerate}
-
-  \end{block}
-
-  \begin{block}{Fusce aliquam magna velit}
-
-    Et rutrum ex euismod vel. Pellentesque ultricies, velit in fermentum
-    vestibulum, lectus nisi pretium nibh, sit amet aliquam lectus augue vel
-    velit. Suspendisse rhoncus massa porttitor augue feugiat molestie. Sed
-    molestie ut orci nec malesuada. Sed ultricies feugiat est fringilla
-    posuere.
-
-    \begin{figure}
-      \centering
-      \begin{tikzpicture}
-        \begin{axis}[
-            scale only axis,
-            no markers,
-            domain=0:2*pi,
-            samples=100,
-            axis lines=center,
-            axis line style={-},
-            ticks=none]
-          \addplot[red] {sin(deg(x))};
-          \addplot[blue] {cos(deg(x))};
-        \end{axis}
-      \end{tikzpicture}
-      \caption{Another figure caption.}
-    \end{figure}
-
-  \end{block}
-
-  \begin{block}{Nam cursus consequat egestas}
-
-    Nulla eget sem quam. Ut aliquam volutpat nisi vestibulum convallis. Nunc a
-    lectus et eros facilisis hendrerit eu non urna. Interdum et malesuada fames
-    ac ante \textit{ipsum primis} in faucibus. Etiam sit amet velit eget sem
-    euismod tristique. Praesent enim erat, porta vel mattis sed, pharetra sed
-    ipsum. Morbi commodo condimentum massa, \textit{tempus venenatis} massa
-    hendrerit quis. Maecenas sed porta est. Praesent mollis interdum lectus,
-    sit amet sollicitudin risus tincidunt non.
-
-    Etiam sit amet tempus lorem, aliquet condimentum velit. Donec et nibh
-    consequat, sagittis ex eget, dictum orci. Etiam quis semper ante. Ut eu
-    mauris purus. Proin nec consectetur ligula. Mauris pretium molestie
-    ullamcorper. Integer nisi neque, aliquet et odio non, sagittis porta justo.
-
-    \begin{itemize}
-      \item \textbf{Sed consequat} id ante vel efficitur. Praesent congue massa
-        sed est scelerisque, elementum mollis augue iaculis.
+    One such heterogeneous computing system would use lightweight CPU software to load an event onto an available
+    FPGA, which then performs the track reconstruction and outputs a set of track candidates. Each FPGA would 
+    have the following implemented in firmware:
+    
+    \begin{tabular}{cl}  
+      \begin{tabular}{c}
+        \parbox{0.55\linewidth}{%  change the parbox width as appropiate    
         \begin{itemize}
-          \item In sed est finibus, vulputate
-            nunc gravida, pulvinar lorem. In maximus nunc dolor, sed auctor eros
-            porttitor quis.
-          \item Fusce ornare dignissim nisi. Nam sit amet risus vel lacus
-            tempor tincidunt eu a arcu.
-          \item Donec rhoncus vestibulum erat, quis aliquam leo
-            gravida egestas.
+          \item \textbf{Data Decoding and Clustering:} Provides cluster position and size information from raw 
+          front-end ITk data. 
+          \item \textbf{Space Point/Stub-Finding:} Pre-filters hit clusters ("stub-finding") and combines strip hit clusters on
+          opposite sides of a stave ("space points") to place 3-D constraints on a track location and reduce input to the pattern recognition stage. 
+          \item \textbf{Slicing Engine:} To combat large occupancy, data packaged in $\eta-\phi$ regions is further divided in the 
+          $z$-direction into "slices". (see below)
+          \item \textbf{Pattern Recognition:} The most resource intensive step - identifying track candidates from hit clusters. Two versions 
+          of the Hough Transform algorithm have been explored.
+          \item \textbf{Duplicate and Fake Removal:} Reject fake tracks using a Neural Network (NN), whose architecture was developed with an FPGA firmware implementation in mind.
+          \item \textbf{Coarse Track Fit:} The track candidates from the pattern recognition stage are further cut down using a linearized $\chi^2$ test,
+          and their track parameters are evaluated.
         \end{itemize}
-      \item \textbf{Sed luctus, elit sit amet} dictum maximus, diam dolor
-        faucibus purus, sed lobortis justo erat id turpis.
-      \item \textbf{Pellentesque facilisis dolor in leo} bibendum congue.
-        Maecenas congue finibus justo, vitae eleifend urna facilisis at.
-    \end{itemize}
+        }
+        \end{tabular}
+        & \begin{tabular}{l}
+          \includegraphics[width=0.4\colwidth]{images/Algorithm-Flow.pdf}
+      \end{tabular}  \\
+    \end{tabular}
 
+  \end{block}
+
+  %There are countless options available for optimizing both of the Hough Transform implementations. To account for non-prompt tracks, an extra
+    %"hit extension" can be applied by filling $n$ extra bins in $\phi$ in the accumulator. In addition, extra bins can be
+    %added to edges of the accumulator to combat any efficiency loss on region boundaries.
+
+    One of the most important strategies for reducing the occupancy in the accumulator is to further divide an $\eta-\phi$ region 
+    into "slices" in the $z$-direction, referred to as $z$-slicing. The main slicing algorithm divides the data into overlapping regions which target tracks 
+    passing through a selected key layer. This crucial subdivision is incorporated into both of the Hough Transform implementations.
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.7\colwidth]{images/keylayerslices_r562.png}
+      \caption*{\emph{An Illustration of the $z$-slicing strategy. Each colored region represents a slice.}}
+    \end{figure}
+
+  \begin{block}{2D Hough Transform for Pattern Recognition}
+
+    In the context of track reconstruction, the Hough Transform converts a hit in position space into a line in momentum space: each hit on 
+    the $x-y$ plane is transformed into a line on the $qA/p_\text{T}-\phi_t$ plane, which is the set of possible track $p_\text{T}$ and track $\phi$ 
+    values consistent with that hit position:
+   
+    \begin{align*}
+      \frac{qA}{p_\text{T}} = \frac{\sin(\phi_t - \phi_h)}{r_h} \approx \frac{\phi_t - \phi_h}{r_h}
+    \end{align*}
+
+    Where $q$ is the charge of the particle, $A$ is the curvature constant for a 2 T Magnetic field, $p_\text{T}$ is the transverse 
+    momentum of the particle, and $\phi_t$ is the azimuthal angle of the particle at the origin.
+
+    Therefore, if five lines intersect the same bin in $\frac{qA}{p_\text{T}}-\phi_t$ space, it suggests that those five hits came from the same charged
+    particle track, with $p_\text{T}$ and $\phi_t$ equal to the intersection point.
+
+
+    \begin{figure}[!h]
+      \centering
+      \begin{subfigure}[t]{.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/HTimage_s2_nopileup.pdf}
+          \caption{}
+      \end{subfigure}
+      \begin{subfigure}[t]{.45\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{images/HTimage_s2_pileup.pdf}
+         \caption{}
+      \end{subfigure}
+      \caption*{\emph{Hough transform accumulator for a single muon track without (a) and with (b) pile-up}}
+    \end{figure}
+  
   \end{block}
 
 \end{column}
@@ -232,76 +176,149 @@
 
 \begin{column}{\colwidth}
 
-  \begin{exampleblock}{A highlighted block containing some math}
 
-    A different kind of highlighted block.
+  \begin{block}{1D Hough Transform for Pattern Recognition}
 
-    $$
-    \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
-    $$
+  An alternative method, the "1D Hough Transform", was also developed to perform track finding. This algorithm makes use of the approximation that all hits in a layer 
+  have the same radius, so that the entire set of hits can be represented as one bit string per layer. Then each bit indicates whether a $\phi$ bin contains a hit or not.
+  It follows that different $p_\text{T}$ hypotheses simply correspond to shifting the bit strings relative to each other, and a track candidate is found if a $\phi$ bin has a hit in enough
+  layers. 
+  
+  There is a loss in $r$ resolution intrinsic in the assumption that the layers have constant radius, but this is made up for by a much smaller FPGA footprint, which in turn allows
+  the use of more detailed $z$ information. The impact parameter $d_0$ can also be incorporated into the $p_\text{T}$ shifts, taking into account tracks 
+  which don't originate exactly at the origin.
 
-    Interdum et malesuada fames $\{1, 4, 9, \ldots\}$ ac ante ipsum primis in
-    faucibus. Cras eleifend dolor eu nulla suscipit suscipit. Sed lobortis non
-    felis id vulputate.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.7\colwidth]{images/BitShiftApproach.png}
+    \caption*{1D Hough approach. After applying a $p_\text{T}$ shift perform a vertical sum, if it's above a given threshold a track candidate is found.}
+  \end{figure}
 
-    \heading{A heading inside a block}
+  \end{block}
 
-    Praesent consectetur mi $x^2 + y^2$ metus, nec vestibulum justo viverra
-    nec. Proin eget nulla pretium, egestas magna aliquam, mollis neque. Vivamus
-    dictum $\mathbf{u}^\intercal\mathbf{v}$ sagittis odio, vel porta erat
-    congue sed. Maecenas ut dolor quis arcu auctor porttitor.
+  
 
-    \heading{Another heading inside a block}
+   
 
-    Sed augue erat, scelerisque a purus ultricies, placerat porttitor neque.
-    Donec $P(y \mid x)$ fermentum consectetur $\nabla_x P(y \mid x)$ sapien
-    sagittis egestas. Duis eget leo euismod nunc viverra imperdiet nec id
-    justo.
+  \begin{block}{Pattern Recognition Performance}
+
+    The truth-matched track candidate efficiency was calculated as a function of $p_\text{T}$ for muons, pions, and electrons in two regions of $\eta$ over 
+    the $\phi$ range of $ 0.3 < \phi < 0.5$ \cite{TDR_Amend}. The performance of each Hough implementation is comparable to the Offline fast tracking software in the central part 
+    of the ATLAS detector. In the less studied forward region of the detector, the performance is not as good as offline. This may be addressed with further optimization
+    of each Hough transform configuration, or potentially by using an alternative pattern recognition algorithm.
+
+    \begin{figure}[!h]
+      \centering
+      \begin{subfigure}[t]{.3\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/HoughEff_m_reg_0.pdf}
+          \caption*{Muons in $0.1 < \eta < 0.3$}
+      \end{subfigure}
+      \begin{subfigure}[t]{.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{images/HoughEff_p_reg_0.pdf}
+         \caption*{Pions in $0.1 < \eta < 0.3$}
+      \end{subfigure}
+      \begin{subfigure}[t]{.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/HoughEff_e_reg_0.pdf}
+        \caption*{Electrons in $0.1 < \eta < 0.3$}
+     \end{subfigure}
+    \end{figure}
+
+    \begin{figure}[!h]
+      \centering
+      \begin{subfigure}[t]{.3\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/HoughEff_m_reg_3.pdf}
+          \caption*{Muons in $2.0 < \eta < 2.2$}
+      \end{subfigure}
+      \begin{subfigure}[t]{.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{images/HoughEff_p_reg_3.pdf}
+         \caption*{Pions in $2.0 < \eta < 2.2$}
+      \end{subfigure}
+      \begin{subfigure}[t]{.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/HoughEff_e_reg_3.pdf}
+        \caption*{Electrons in $2.0 < \eta < 2.2$}
+     \end{subfigure}
+    \end{figure}
+
+  \end{block}
+
+  \begin{block}{Resource Usage}
+
+    The estimated size and total power of an FPGA-based heterogeneous system is shown in the table below \cite{TDR_Amend}.
+    The ranges in the number of accelerators and power correspond to the envelope of three different preliminary firmware implementations. 
+    
+    \begin{table} [htb!]
+      \centering
+        \begin{tabular}{|c|c|c|}
+          \hline
+              & Run 4 & Run 5 \\
+          \hline
+              \# of Accelerator Cards & \multicolumn{2}{c|}{270-680} \\ %%% This is for 200 kHz
+              CPU resource requirement [MHS06] & 1.1-1.7 & 1.6-2.4\\ %%% Run 5 is for 200 kHz, case 3, updated rel 21.9 numbers from v1.0 sw report
+              \hline \hline
+              Accelerator Power [MW] & \multicolumn{2}{c|}{0.08-0.18} \\
+              CPU Power [MW] & 0.28-0.42 & 0.32-0.48 \\ \hline %scaled from CPU line using 0.25 W/HS06 for run 4 and 0.20 W/HS06 for run 5
+              Total Power [MW] & 0.4-0.6 & 0.4-0.7 \\
+              \hline
+        \end{tabular}
+    \end{table}
+
+      This can be compared to an estimate of the required resources for a CPU-only fast track reconstruction \cite{TDR_Amend}:
+      
+      \begin{table}[ht!]
+        \centering
+        \begin{tabular}{|l||c|c||c|c|c|} \hline
+        & \multicolumn{2}{c||}{Pile-up 140} & \multicolumn{2}{c|}{Pile-up 200} \\ \hline
+        & full-scan & regional & full-scan & regional \\ \hline
+      Rate [MHz] & 0.15 & 1.0 & 0.15 & 1.0 \\
+      CPU Resource requirement [MHS06] & 3.41 & 2.49 & 5.36 & 3.81 \\ \hline
+      Tracking resource requirement [MHS06] & \multicolumn{2}{c||}{5.90} & \multicolumn{2}{c|}{9.17} \\
+      Tracking power requirement [MW] & \multicolumn{2}{c||}{1.47} & \multicolumn{2}{c|}{1.83} \\
+      \hline
+        \end{tabular}
+      \end{table}
+
+  \end{block}
+
+  \begin{exampleblock}{Conclusion}
+
+    A heterogeneous commodity system has been demonstrated to be a viable option for EF tracking in ATLAS.
+    This has been shown with implementations of the Hough Transform as the pattern recognition algorithms of choice, but 
+    a broad range of pattern recognition strategies are still being explored, including using Graph Neural Networks and GPUs.
+    The system also lends itself well to integrating the use of Machine Learning algorithms, and there has already been 
+    success using an NN for fake rejection.
+
+    An FPGA-based heterogeneous system also offers noticeable power savings in comparison to CPU-only systems, while still meeting 
+    the tracking performance requirements of maintaining high efficiency across $\eta - d_0 - z_0 - p_\text{T}$ phase space. In addition to being
+    low risk and commercially available, this system is incredibly flexible and can scale or adapt in response to the future physics needs of 
+    the ATLAS experiment.
 
   \end{exampleblock}
 
-  \begin{block}{Nullam vel erat at velit convallis laoreet}
-
-    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-    inceptos himenaeos. Phasellus libero enim, gravida sed erat sit amet,
-    scelerisque congue diam. Fusce dapibus dui ut augue pulvinar iaculis.
-
-    \begin{table}
-      \centering
-      \begin{tabular}{l r r c}
-        \toprule
-        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
-        \midrule
-        Foo & 13.37 & 384,394 & $\alpha$ \\
-        Bar & 2.17 & 1,392 & $\beta$ \\
-        Baz & 3.14 & 83,742 & $\delta$ \\
-        Qux & 7.59 & 974 & $\gamma$ \\
-        \bottomrule
-      \end{tabular}
-      \caption{A table caption.}
-    \end{table}
-
-    Donec quis posuere ligula. Nunc feugiat elit a mi malesuada consequat. Sed
-    imperdiet augue ac nibh aliquet tristique. Aenean eu tortor vulputate,
-    eleifend lorem in, dictum urna. Proin auctor ante in augue tincidunt
-    tempor. Proin pellentesque vulputate odio, ac gravida nulla posuere
-    efficitur. Aenean at velit vel dolor blandit molestie. Mauris laoreet
-    commodo quam, non luctus nibh ullamcorper in. Class aptent taciti sociosqu
-    ad litora torquent per conubia nostra, per inceptos himenaeos.
-
-    Nulla varius finibus volutpat. Mauris molestie lorem tincidunt, iaculis
-    libero at, gravida ante. Phasellus at felis eu neque suscipit suscipit.
-    Integer ullamcorper, dui nec pretium ornare, urna dolor consequat libero,
-    in feugiat elit lorem euismod lacus. Pellentesque sit amet dolor mollis,
-    auctor urna non, tempus sem.
-
-  \end{block}
 
   \begin{block}{References}
+    %\footnotesize{\bibliographystyle{ieeetr}\bibliography{poster}}
+    \footnotesize{
+      \begin{thebibliography}{1}
 
-    \nocite{*}
-    \footnotesize{\bibliographystyle{plain}\bibliography{poster}}
-
+        \bibitem{TDR}
+        ATLAS Collaboration, ``{Technical Design Report for the Phase-II Upgrade of the ATLAS
+        TDAQ System},'' Tech. Rep. CERN-LHCC-2017-020. ATLAS-TDR-029, CERN, Geneva,
+          Sept., 2017. \href{https://cds.cern.ch/record/2285584}{https://cds.cern.ch/record/2285584}
+        
+        \bibitem{TDR_Amend}
+        ATLAS Collaboration, ``{Technical Design Report for the Phase-II Upgrade of the ATLAS Trigger
+         and Data Acquisition System - Event Filter Tracking Amendment},'' Tech. Rep. CERN-LHCC-2022-004. 
+         ATLAS-TDR-029-ADD-1, CERN, Geneva, Mar. 2022, \href{https://cds.cern.ch/record/2802799}{https://cds.cern.ch/record/2802799
+        }
+        
+        \end{thebibliography}
+    }
   \end{block}
 
 \end{column}
